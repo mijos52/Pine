@@ -1,0 +1,7 @@
+This file will contain the algorithm for the first tradingview pine script stratergy 
+
+Requirements 
+- stock with certain perchnage change in one day 
+- strong move with high relative volume
+- Buy at important pivot when stock reaches it 
+- Trades should be only made on days where the specific criterias are met 
