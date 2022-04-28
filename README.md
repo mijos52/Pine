@@ -1,0 +1,1 @@
+# Stratergies using pine script
