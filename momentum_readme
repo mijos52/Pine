@@ -1,0 +1,124 @@
+//@version5
+
+strategy(Momentum",overlay=true)
+
+//variables 
+
+volume =
+average_volume =
+relative_volume =
+inflection_point =
+gain_percent =
+stock_price =
+week_high =
+month_high =
+52_high =
+52_low =
+day_high =
+day_low =
+pivot_h1 =
+pivot_h2 =
+pivot_h3 =
+pivot_l1 =
+pivot_l2 =
+pivot_l3 =
+stock_pe = 
+atr = 
+
+// information to get from backtest 
+
+1.No of Green days
+2.No of Red days
+3.Percentage Probabilty
+4.Earnings days 
+5.Special days
+6.Performance based on type of day 
+7.Max drawndown 
+
+// Risk management 
+
+1. Atleast 1:2 risk reward
+2. Capital risk max 3 %
+
+// Entry conditions
+
+Long = if relative_volume > 2 , above inflection_point , average_volume > 100 k , stock_price >100 , 
+        space_beween_pivots
+short = if relative_volume > 2 , below inflection_point , average_volume > 100 K , stock_price > 100 ,
+        space_beween_pivots
+
+// Exit conditions
+
+Long_exit = below_infection , Long_term_pivot_hit , PriceTarget_hit, atr_stop
+Short_exit = above_inflection , Long_term_pivot_hit , Pricetarget_hit , atr_stop
+
+
+// Things to plot/mark on the chart
+
+1. days close to 52_week high 
+2. days close to 52_week_low
+3. days stopped out color 
+4. Earnings days 
+5. Special days 
+
+// Todo 
+- entering too much trades 
+- knowing whether we are in a trade or not /done
+- pivot point based risk calculation
+- risk to reward should be > 2
+- days to trade should be more specific
+- close price / atr should be fixed regardless of 1,15,D chart selected on tradingview
+- refference above/below pivot should be more specific 
+- % closeness to the pivot or something else should be used 
+
+
+// Did 
+// @ version 15
+- changed entry condition basaed on difference from pivots and did not work 
+
+//long trade
+pivot = 100
+close = 101
+
+//short trade
+pivot = 100
+close = 99
+
+//@ version 16
+added pivot based entry more specific
+works on small charts 1h and lower not on daily chart 
+
+//notes
+- chart at which trades should be taken 
+- 5 minute bar or 1 minute bar
+- 
+
+// version 17
+atr was fixxed on day bars 
+
+//version 18
+
+- close price was fixed to 1minute or 5 minute but this does not seem like it is working
+- everlything changes when the timeframe on the chart is changed 
+
+// version 19
+- timeframe function was added 
+
+// todo 
+- close intraday orders at end of day 
+- pivot points are not working as intended 
+
+
+// version 20
+-fixing pivots
+-exit conditions are not woking properly
+
+// version 21
+- exits should be based on atr and not fixed values 
+- or lower pivots should be used
+
+// version 22
+- backtest date should be added 
+
+//TODO 
+- get the sharpe ratio and sortino ratio correct 

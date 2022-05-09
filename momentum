@@ -1,0 +1,72 @@
+// This source code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
+// © styleethnic1
+//code version 13
+//@version=5
+strategy("momentum",margin_long =3 , margin_short = 3 , overlay = false)
+
+
+//variables
+prev_high = request.security(syminfo.tickerid, "D", high[0])
+prev_low = request.security(syminfo.tickerid, "D", low[0])
+prev_close = request.security(syminfo.tickerid, "D", close[0])
+day_volume = volume
+average_volume  = math.sum(volume , 21)
+relative_volume = average_volume/day_volume
+
+//atr based stop loss
+atr= ta.atr(21)
+atr_stop_long = close - atr
+atr_stop_short = close - atr 
+atr_tp_long = close + 2* atr
+atr_tp_short = close - 2* atr
+
+//pivot point calculation was obtained from pivot point standard
+inflection_point = (prev_high + prev_low + prev_close) / 3
+r1 = inflection_point * 2 - prev_low
+s1 = inflection_point * 2 - prev_high
+r2 = inflection_point + (prev_high-prev_low)
+s2 = inflection_point - (prev_high-prev_low)
+r3 = inflection_point * 2 + (prev_high - 2 * prev_low)
+s3 = inflection_point * 2 - (2 * prev_high - prev_low)
+r4 = inflection_point * 3 + (prev_high  - 3 * prev_low)
+s4 = inflection_point *3 -(3 * prev_high - prev_low)
+r5 = inflection_point *4 + (prev_high - 4 * prev_low)
+s5 = inflection_point * 4 -(4 * prev_high - prev_low)
+
+// plot(r1)
+// plot(s1)
+// plot(r2)
+// plot(s2)
+// plot(r3)
+// plot(s3)
+// plot(r4)
+// plot(s4)
+// plot(r5)
+// plot(s5)
+
+//Entry conditions
+Long = relative_volume > 2 and close > inflection_point
+Short = relative_volume > 2 and close < inflection_point
+
+//Exit inflection point
+Long_exit = close < inflection_point 
+Short_exit = close > inflection_point
+
+//Exit take profit
+tp_long = close > r5
+tp_short = close < s5
+
+//Exit atr based
+tp_atr_long = close < atr_stop_long
+tp_atr_short = close > atr_stop_short
+atr_exit_long = close > atr_tp_long
+atr_exit_short = close < atr_tp_short
+
+//Entry
+strategy.entry('Long', strategy.long , when = Long)
+strategy.entry('Short', strategy.short ,when = Short)
+
+//Exit conditions
+strategy.close('Long', when = Long_exit or tp_long or tp_atr_long or atr_exit_long)
+strategy.close('Short' , when = Short_exit or  tp_short or tp_atr_short or atr_exit_short)
+

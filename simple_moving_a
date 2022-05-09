@@ -1,0 +1,15 @@
+
+//@version=5
+strategy("My script")
+
+small = ta.ema(close, 20)
+big =  ta.ema(close,50)
+
+long = small > big
+short = small < big
+
+strategy.entry("Long" , strategy.long ,1000, when = long )
+strategy.entry("Short" , strategy.short ,1000, when = short )
+
+strategy.close("Long",when = short)
+strategy.close("Short",when = long)
